@@ -1,8 +1,8 @@
 // Hardcoded credentials for subdomain-based authentication
 export const AUTH_CREDENTIALS: Record<string, { email: string; password: string; userData?: any }> = {
   'demo': {
-    email: 'demo@pepuns.xyz',
-    password: 'demo123',
+    email: 'teck@site.com',
+    password: '1234',
     userData: {
       hasCard: false,
       cardDetails: null,
@@ -18,7 +18,14 @@ export const AUTH_CREDENTIALS: Record<string, { email: string; password: string;
         number: '4532 1234 5678 9012',
         expiry: '12/28',
         cvv: '123',
-        holderName: 'John Doe'
+        holderName: 'John Doe',
+        billingAddress: {
+          street: '123 Main Street',
+          city: 'New York',
+          state: 'NY',
+          zipCode: '10001',
+          country: 'United States'
+        }
       },
       isCardPending: false
     }

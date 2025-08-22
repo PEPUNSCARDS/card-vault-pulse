@@ -52,7 +52,7 @@ export function LoginForm({ onLogin }: LoginFormProps) {
         <Card className="shadow-card border-border">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Virtual Card Manager
+              PEPUNS Card Manager
             </CardTitle>
             <CardDescription className="text-muted-foreground">
               {subdomain}.card.pepuns.xyz

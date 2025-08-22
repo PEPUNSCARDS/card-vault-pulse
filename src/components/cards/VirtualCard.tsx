@@ -8,6 +8,13 @@ interface CardDetails {
   expiry: string;
   cvv: string;
   holderName: string;
+  billingAddress?: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
 }
 
 interface VirtualCardProps {
@@ -80,6 +87,21 @@ export function VirtualCard({ cardDetails, onTopUp }: VirtualCardProps) {
               </div>
             </div>
           </div>
+          
+          {cardDetails.billingAddress && (
+            <div className="mt-6 pt-4 border-t border-white/20">
+              <div className="text-xs text-white/70 uppercase tracking-wide mb-2">
+                Billing Address
+              </div>
+              <div className="text-white text-sm space-y-1">
+                <div>{cardDetails.billingAddress.street}</div>
+                <div>
+                  {cardDetails.billingAddress.city}, {cardDetails.billingAddress.state} {cardDetails.billingAddress.zipCode}
+                </div>
+                <div>{cardDetails.billingAddress.country}</div>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
       
