@@ -1,7 +1,7 @@
 import { parseUnits, formatUnits } from 'viem';
 
 // Contract and network configuration
-export const USDC_TOKEN_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'; // Mainnet USDC
+export const PEPU_TOKEN_ADDRESS = '0x...'; // Replace with PEPU token address
 export const TREASURY_ADDRESS = '0xD1B77E5BE43d705549E38a23b59CF5365f17E227'; // Your treasury address
 export const RPC_URL = 'https://eth.llamarpc.com'; // Reliable RPC provider
 export const CHAIN_ID = 1; // Ethereum Mainnet
@@ -29,17 +29,17 @@ export const CARD_VAULT_ABI = [
   'function getCardDetails(address user) external view returns (string memory, string memory, string memory, string memory)'
 ] as const;
 
-export function parseUSDC(amount: string): bigint {
-  return parseUnits(amount, 6); // USDC has 6 decimals
+export function parsePEPU(amount: string): bigint {
+  return parseUnits(amount, 18); // PEPU has 18 decimals
 }
 
-export function formatUSDC(amount: bigint): string {
-  return formatUnits(amount, 6);
+export function formatPEPU(amount: bigint): string {
+  return formatUnits(amount, 18);
 }
 
-// Minimum amounts (in USDC)
-export const MIN_CARD_CREATION_AMOUNT = 20; // $20 USDC
-export const MIN_TOPUP_AMOUNT = 15; // $15 USDC
+// Card creation fee in PEPU (with 18 decimals)
+export const CARD_CREATION_FEE = parsePEPU('15000'); // 15000 PEPU
+export const MIN_TOPUP_AMOUNT = parsePEPU('1000'); // 1000 PEPU
 
 // Contract addresses
 export const CARD_VAULT_ADDRESS = '0x...'; // Your card vault contract address
@@ -58,7 +58,7 @@ export enum TransactionStatus {
 
 // Error messages
 export const ERROR_MESSAGES = {
-  INSUFFICIENT_BALANCE: 'Insufficient USDC balance',
+  INSUFFICIENT_BALANCE: 'Insufficient PEPU balance',
   TRANSACTION_REJECTED: 'Transaction rejected',
   TRANSACTION_FAILED: 'Transaction failed',
   NETWORK_ERROR: 'Network error',
