@@ -6,9 +6,9 @@ export const AUTH_CREDENTIALS: Record<string, { email: string; password: string;
     userData: {
       hasCard: true,
       cardDetails: {
-        number: '0000 0000 0000 0000',
-        expiry: '00/00',
-        cvv: '000',
+        number: '123 586 697',
+        expiry: '12/29',
+        cvv: '103',
         holderName: 'Card Holder',
         billingAddress: {
           street: '123 Main St',
