@@ -1,54 +1,24 @@
 // Hardcoded credentials for subdomain-based authentication
 export const AUTH_CREDENTIALS: Record<string, { email: string; password: string; userData?: any }> = {
   'demo': {
-    email: 'teck@site.com',
-    password: '1234',
+    email: 'thehorsefinance@gmail.com',
+    password: '12345678',
     userData: {
       hasCard: true,
       cardDetails: {
         number: '0000 0000 0000 0000',
         expiry: '00/00',
         cvv: '000',
-        holderName: '0000000000',
+        holderName: 'Card Holder',
         billingAddress: {
-          street: '0000000000',
-          city: '0000000000',
-          state: '00',
-          zipCode: '00000',
-          country: '0000000000'
-        }
-      },
-      isCardPending: false
-    }
-  },
-  'user1': {
-    email: 'user1@pepuns.xyz',
-    password: 'user123',
-    userData: {
-      hasCard: true,
-      cardDetails: {
-        number: '4532 1234 5678 9012',
-        expiry: '12/28',
-        cvv: '123',
-        holderName: 'John Doe',
-        billingAddress: {
-          street: '123 Main Street',
+          street: '123 Main St',
           city: 'New York',
           state: 'NY',
           zipCode: '10001',
-          country: 'United States'
+          country: 'USA'
         }
       },
       isCardPending: false
-    }
-  },
-  'test': {
-    email: 'test@pepuns.xyz',
-    password: 'test123',
-    userData: {
-      hasCard: false,
-      cardDetails: null,
-      isCardPending: true
     }
   }
 };
@@ -59,17 +29,13 @@ export function getCurrentSubdomain(): string {
   const hostname = window.location.hostname;
   const parts = hostname.split('.');
   
-  // For local development
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+  // For local development or main domain
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || parts.length < 3) {
     return 'demo';
   }
   
   // Extract subdomain from user.card.pepuns.xyz
-  if (parts.length >= 3) {
-    return parts[0];
-  }
-  
-  return 'demo';
+  return parts[0];
 }
 
 export function getCredentialsForSubdomain() {
@@ -86,7 +52,5 @@ export function isCardMock(cardDetails: any): boolean {
   if (!cardDetails) return true;
   
   // Check if card details are all zeros/mock data
-  return cardDetails.number === '0000 0000 0000 0000' ||
-         cardDetails.holderName === '0000000000' ||
-         cardDetails.expiry === '00/00';
+  return cardDetails.number === '0000 0000 0000 0000';
 }
