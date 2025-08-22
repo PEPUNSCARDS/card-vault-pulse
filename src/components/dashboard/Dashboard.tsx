@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { VirtualCard } from '@/components/cards/VirtualCard';
 import { CreateCardFlow } from '@/components/cards/CreateCardFlow';
-import { TopUpFlow } from '@/components/cards/TopUpFlow';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { getCredentialsForSubdomain, getCurrentSubdomain, isCardMock } from '@/lib/auth';
+import { getCredentialsForSubdomain, getCurrentSubdomain } from '@/lib/auth';
 import { LogOut } from 'lucide-react';
 
 interface DashboardProps {
@@ -21,37 +20,6 @@ export function Dashboard({ onLogout }: DashboardProps) {
 
   const handleCardCreated = () => {
     setRefreshKey(prev => prev + 1);
-  };
-
-  const renderCardStatus = () => {
-    if (userData?.isCardPending) {
-      return (
-        <Card className="w-full max-w-md mx-auto shadow-card border-border">
-          <CardHeader className="text-center">
-            <CardTitle className="text-foreground">Card Creation Pending</CardTitle>
-            <CardDescription className="text-muted-foreground">
-              Your card is being processed. You will receive details within 24 hours.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      );
-    }
-
-    if (userData?.hasCard && userData?.cardDetails) {
-      // Check if card details are mock (all zeros) or real
-      if (isCardMock(userData.cardDetails)) {
-        return <CreateCardFlow onCardCreated={handleCardCreated} />;
-      }
-      
-      return (
-        <VirtualCard
-          cardDetails={userData.cardDetails}
-          onTopUp={() => setShowTopUp(true)}
-        />
-      );
-    }
-
-    return <CreateCardFlow onCardCreated={handleCardCreated} />;
   };
 
   return (
@@ -82,7 +50,23 @@ export function Dashboard({ onLogout }: DashboardProps) {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center justify-center min-h-[60vh]">
-          {renderCardStatus()}
+          <Card className="w-full max-w-md mx-auto shadow-card border-border">
+            <CardHeader className="text-center">
+              <CardTitle className="text-foreground">Your Virtual Card</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Manage your virtual card and top up your balance
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <VirtualCard 
+                cardDetails={userData?.cardDetails} 
+                onTopUp={() => setShowTopUp(true)} 
+              />
+              <div className="flex justify-center">
+                <CreateCardFlow onCardCreated={handleCardCreated} />
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
 
