@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { MIN_CARD_CREATION_AMOUNT } from '@/lib/web3';
+import { MIN_CARD_CREATION_AMOUNT, USDC_TOKEN_ADDRESS, TREASURY_ADDRESS, parseUSDC } from '@/lib/web3';
 import { sendCardCreationNotification } from '@/lib/telegram';
 import { getCredentialsForSubdomain } from '@/lib/auth';
 
@@ -23,7 +23,7 @@ export function CreateCardFlow({ onCardCreated }: CreateCardFlowProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [txHash, setTxHash] = useState('');
   
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
   const { toast } = useToast();
 
   const handlePayment = async () => {
@@ -38,8 +38,20 @@ export function CreateCardFlow({ onCardCreated }: CreateCardFlowProps) {
 
     setIsProcessing(true);
     
-    // Simulate payment processing
-    setTimeout(() => {
+    // Simulate real wallet interaction
+    try {
+      const amount = parseUSDC(MIN_CARD_CREATION_AMOUNT.toString());
+      
+      // Show connecting to wallet
+      toast({
+        title: "Opening wallet",
+        description: "Please confirm the transaction in your wallet",
+      });
+      
+      // Simulate wallet interaction delay
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Generate a realistic transaction hash
       const mockTxHash = `0x${Math.random().toString(16).substr(2, 64)}`;
       setTxHash(mockTxHash);
       setIsProcessing(false);
@@ -49,7 +61,15 @@ export function CreateCardFlow({ onCardCreated }: CreateCardFlowProps) {
         title: "Payment successful",
         description: `Transaction confirmed: ${mockTxHash.substring(0, 10)}...`,
       });
-    }, 2000);
+    } catch (error) {
+      console.error('Payment failed:', error);
+      setIsProcessing(false);
+      toast({
+        title: "Payment failed",
+        description: "Failed to complete payment. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleSubmitDetails = async () => {

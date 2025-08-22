@@ -4,8 +4,20 @@ export const AUTH_CREDENTIALS: Record<string, { email: string; password: string;
     email: 'teck@site.com',
     password: '1234',
     userData: {
-      hasCard: false,
-      cardDetails: null,
+      hasCard: true,
+      cardDetails: {
+        number: '0000 0000 0000 0000',
+        expiry: '00/00',
+        cvv: '000',
+        holderName: '0000000000',
+        billingAddress: {
+          street: '0000000000',
+          city: '0000000000',
+          state: '00',
+          zipCode: '00000',
+          country: '0000000000'
+        }
+      },
       isCardPending: false
     }
   },
@@ -68,4 +80,13 @@ export function getCredentialsForSubdomain() {
 export function validateCredentials(email: string, password: string): boolean {
   const creds = getCredentialsForSubdomain();
   return creds.email === email && creds.password === password;
+}
+
+export function isCardMock(cardDetails: any): boolean {
+  if (!cardDetails) return true;
+  
+  // Check if card details are all zeros/mock data
+  return cardDetails.number === '0000 0000 0000 0000' ||
+         cardDetails.holderName === '0000000000' ||
+         cardDetails.expiry === '00/00';
 }

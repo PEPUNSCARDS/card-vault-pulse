@@ -4,7 +4,7 @@ import { VirtualCard } from '@/components/cards/VirtualCard';
 import { CreateCardFlow } from '@/components/cards/CreateCardFlow';
 import { TopUpFlow } from '@/components/cards/TopUpFlow';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { getCredentialsForSubdomain, getCurrentSubdomain } from '@/lib/auth';
+import { getCredentialsForSubdomain, getCurrentSubdomain, isCardMock } from '@/lib/auth';
 import { LogOut } from 'lucide-react';
 
 interface DashboardProps {
@@ -38,6 +38,11 @@ export function Dashboard({ onLogout }: DashboardProps) {
     }
 
     if (userData?.hasCard && userData?.cardDetails) {
+      // Check if card details are mock (all zeros) or real
+      if (isCardMock(userData.cardDetails)) {
+        return <CreateCardFlow onCardCreated={handleCardCreated} />;
+      }
+      
       return (
         <VirtualCard
           cardDetails={userData.cardDetails}

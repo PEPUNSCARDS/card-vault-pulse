@@ -32,7 +32,7 @@ export const ERC20_ABI = [
     stateMutability: 'view',
     type: 'function'
   }
-];
+] as const;
 
 export function parseUSDC(amount: string): bigint {
   return parseUnits(amount, 6); // USDC has 6 decimals
